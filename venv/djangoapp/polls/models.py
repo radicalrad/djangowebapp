@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import timedelta
 # Create your models here.
 from datetime import datetime
 from django.utils import timezone
@@ -14,7 +14,11 @@ class Question(models.Model):
         return self.question_text+" published on: "+ '{:%Y-%m-%d %H:%M}'.format(self.pub_date)
 
     def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+        if (self.pub_date >= timezone.now() - timedelta(days=1) and self.pub_date<=timezone.now()):
+
+            return True
+        else:
+            return False
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
